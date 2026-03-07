@@ -1,0 +1,26 @@
+# Vagrant
+.vagrant/
+*.box
+
+# Kubernetes join command (generated at runtime, contains token)
+phase1-infrastructure/join-command.sh
+
+# Kubeconfig (may contain credentials)
+kubeconfig
+*.kubeconfig
+
+# Helm
+*.tgz
+
+# ArgoCD generated secrets
+*-secret.yaml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.claude/
+*.swp
+*~

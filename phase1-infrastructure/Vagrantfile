@@ -1,0 +1,74 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# -------------------------------------------------------------------
+# StackLayer — Phase 1: Infrastructure
+# 3x Ubuntu 22.04 VMs forming a kubeadm Kubernetes cluster
+# Requires: vagrant-vmware-desktop plugin
+# -------------------------------------------------------------------
+
+KUBERNETES_VERSION = "1.33"
+UBUNTU_BOX         = "bento/ubuntu-22.04"
+NODE_IP_PREFIX     = "192.168.56"   # Change if this subnet conflicts on your host
+
+# Directory where VM files are stored on the host.
+# Override with: $env:STACKLAYER_VM_DIR = "D:\VMs\stacklayer"  (then vagrant up)
+# Default keeps VMs inside the project's .vagrant folder (Vagrant standard behaviour).
+VM_DIR = ENV.fetch("STACKLAYER_VM_DIR", nil)
+
+NODES = [
+  { name: "k8s-controller-1", ip: "#{NODE_IP_PREFIX}.10", cpus: 2, memory: 8192,  role: "master" },
+  { name: "k8s-worker-1",     ip: "#{NODE_IP_PREFIX}.11", cpus: 4, memory: 24576, role: "worker" },
+  { name: "k8s-worker-2",     ip: "#{NODE_IP_PREFIX}.12", cpus: 4, memory: 24576, role: "worker" },
+]
+
+Vagrant.configure("2") do |config|
+  config.vm.box = UBUNTU_BOX
+
+  # VMware shared folders via open-vm-tools (built into bento boxes).
+  # The join-command.sh written by the controller is immediately visible to workers.
+  config.vm.synced_folder ".", "/vagrant"
+
+  NODES.each do |node|
+    config.vm.define node[:name] do |machine|
+      machine.vm.hostname = node[:name]
+      machine.vm.network "private_network", ip: node[:ip]
+
+      # NOTE: vm.disk is disabled — bug in vagrant-vmware-desktop 3.0.5 causes a
+      # String/Integer comparison error. VMs use the bento box default (64 GB).
+      # Disk resizing can be done manually in VMware after first boot if needed.
+
+      machine.vm.provider "vmware_desktop" do |v|
+        v.vmx["displayName"] = node[:name]
+        v.vmx["numvcpus"]    = node[:cpus].to_s
+        v.vmx["memsize"]     = node[:memory].to_s
+        v.gui = false
+        v.clone_directory = "#{VM_DIR}/#{node[:name]}" if VM_DIR
+      end
+
+      # Step 1: Common setup on every node
+      machine.vm.provision "shell",
+        name:  "common",
+        path:  "scripts/common.sh",
+        env:   {
+          "KUBE_VERSION" => KUBERNETES_VERSION,
+          "NODE_IPS"     => NODES.map { |n| "#{n[:ip]} #{n[:name]}" }.join("\n"),
+        }
+
+      # Step 2: Role-specific provisioning
+      if node[:role] == "master"
+        machine.vm.provision "shell",
+          name:  "master-init",
+          path:  "scripts/master-init.sh",
+          env:   {
+            "MASTER_IP"    => node[:ip],
+            "KUBE_VERSION" => KUBERNETES_VERSION,
+          }
+      else
+        machine.vm.provision "shell",
+          name: "worker-join",
+          path: "scripts/worker-join.sh"
+      end
+    end
+  end
+end
