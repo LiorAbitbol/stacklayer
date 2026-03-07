@@ -1,0 +1,5 @@
+# cert-manager Helm values — StackLayer Phase 2
+# Self-signed ClusterIssuer is applied separately in manifests/clusterissuer.yaml
+
+crds:
+  enabled: true

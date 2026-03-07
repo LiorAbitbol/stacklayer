@@ -1,0 +1,11 @@
+# Self-signed ClusterIssuer — StackLayer Phase 2
+# Used by all Ingress resources with: cert-manager.io/cluster-issuer: selfsigned
+# Browsers will show a certificate warning — expected for a local lab.
+# Applied after cert-manager webhook is Ready.
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned
+spec:
+  selfSigned: {}
