@@ -1,0 +1,9 @@
+# MetalLB Helm values — StackLayer Phase 2
+# L2 mode; IP pool is configured via CRDs in manifests/metallb-ippool.yaml
+
+# Allow speaker pods to run on the control-plane node (taint toleration)
+speaker:
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule

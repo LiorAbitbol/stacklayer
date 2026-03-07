@@ -1,0 +1,22 @@
+# MetalLB IP address pool — StackLayer Phase 2
+# Reserves 192.168.56.200-220 for LoadBalancer services.
+# ingress-nginx is pinned to .200 via loadBalancerIP in its Helm values.
+# Applied after MetalLB controller is ready.
+
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: stacklayer-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - 192.168.56.200-192.168.56.220
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: stacklayer-l2
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - stacklayer-pool

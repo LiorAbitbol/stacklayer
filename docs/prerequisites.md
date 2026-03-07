@@ -68,7 +68,17 @@ winget install Git.Git
 
 Verify: `git --version`
 
-### 7. make
+### 7. Helm
+
+Used to install Phase 2 platform components (ingress-nginx, cert-manager, MetalLB).
+
+```powershell
+winget install Helm.Helm
+```
+
+Verify: `helm version`
+
+### 8. make
 
 `make` is not included with Windows. Install via winget:
 
@@ -76,14 +86,18 @@ Verify: `git --version`
 winget install GnuWin32.Make
 ```
 
-Then add to PATH (winget does not do this automatically):
+Winget does not add `make` to PATH automatically. Add it permanently:
 
-```powershell
-$env:Path += ";C:\Program Files (x86)\GnuWin32\bin"
-```
+**System Properties → Advanced → Environment Variables → System Variables → Path → Edit → New**
 
-To make it permanent, add `C:\Program Files (x86)\GnuWin32\bin` to your system PATH via:
-**System Properties → Advanced → Environment Variables → Path → Edit**
+Add: `C:\Program Files (x86)\GnuWin32\bin`
+
+Then **open a new terminal** for the change to take effect.
+
+> For the current terminal session only (no restart required):
+> ```powershell
+> $env:Path += ";C:\Program Files (x86)\GnuWin32\bin"
+> ```
 
 Verify: `make --version`
 
@@ -135,6 +149,7 @@ The directory will be created automatically. Each VM gets its own subfolder:
 vagrant --version          # 2.4+
 vagrant plugin list        # vagrant-vmware-desktop
 kubectl version --client   # v1.x
+helm version               # v3.x
 git --version              # any recent version
 make --version             # GNU Make 3.x+
 ```
