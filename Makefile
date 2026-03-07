@@ -1,5 +1,5 @@
 SHELL := C:/Program Files/Git/usr/bin/bash.exe
-.PHONY: up kubeconfig verify destroy platform verify-platform help
+.PHONY: up kubeconfig verify destroy platform verify-platform gitops verify-gitops help
 
 help:
 	@echo ""
@@ -14,6 +14,10 @@ help:
 	@echo "  Phase 2 — Platform"
 	@echo "  make platform         Install ingress-nginx, cert-manager, MetalLB, local-path-provisioner"
 	@echo "  make verify-platform  Smoke test platform health"
+	@echo ""
+	@echo "  Phase 3 — GitOps"
+	@echo "  make gitops           Install ArgoCD"
+	@echo "  make verify-gitops    Smoke test ArgoCD health"
 	@echo ""
 
 up:
@@ -35,3 +39,9 @@ platform:
 
 verify-platform:
 	$(SHELL) phase2-platform/scripts/verify.sh
+
+gitops:
+	$(SHELL) phase3-gitops/scripts/install.sh
+
+verify-gitops:
+	$(SHELL) phase3-gitops/scripts/verify.sh

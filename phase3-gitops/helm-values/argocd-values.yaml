@@ -1,0 +1,14 @@
+global:
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+
+configs:
+  params:
+    # Run ArgoCD server in insecure (HTTP) mode — TLS is terminated at ingress-nginx
+    server.insecure: true
+
+server:
+  ingress:
+    enabled: false  # Managed separately in manifests/argocd-ingress.yaml

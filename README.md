@@ -46,6 +46,22 @@ Add to your Windows hosts file (`C:\Windows\System32\drivers\etc\hosts`):
 192.168.56.200  stacklayer.local
 ```
 
+### Install GitOps (Phase 3)
+
+```powershell
+make gitops
+make verify-gitops
+```
+
+Add to your Windows hosts file:
+
+```
+192.168.56.200  argocd.stacklayer.local
+```
+
+ArgoCD UI is at https://argocd.stacklayer.local — credentials are printed by `make gitops`.
+See [docs/argocd-connect-repo.md](docs/argocd-connect-repo.md) to connect your first repo.
+
 ### Power the cluster on and off
 
 ```powershell
@@ -74,10 +90,12 @@ make verify
 stacklayer/
 ├── Makefile
 ├── docs/
-│   ├── prerequisites.md        # What to install on the host
-│   ├── architecture.md         # High-level overview, links to phase docs
-│   ├── phase1-architecture.md  # Phase 1 design decisions
-│   └── phase2-architecture.md  # Phase 2 design decisions
+│   ├── prerequisites.md                       # What to install on the host
+│   ├── architecture.md                        # High-level overview, links to phase docs
+│   ├── phase1-infrastructure-architecture.md  # Phase 1 design decisions
+│   ├── phase2-platform-architecture.md        # Phase 2 design decisions
+│   ├── phase3-gitops-architecture.md          # Phase 3 design decisions
+│   └── argocd-connect-repo.md                 # How to connect a repo to ArgoCD
 ├── phase1-infrastructure/
 │   ├── Vagrantfile             # VM definitions
 │   └── scripts/
@@ -85,17 +103,25 @@ stacklayer/
 │       ├── master-init.sh      # Control plane: kubeadm init + Flannel CNI
 │       ├── worker-join.sh      # Workers: join cluster via shared join command
 │       └── verify.sh           # Smoke test: nodes Ready, test pod
-└── phase2-platform/
+├── phase2-platform/
+│   ├── helm-values/
+│   │   ├── metallb-values.yaml
+│   │   ├── ingress-nginx-values.yaml
+│   │   └── cert-manager-values.yaml
+│   ├── manifests/
+│   │   ├── metallb-ippool.yaml  # IPAddressPool + L2Advertisement
+│   │   └── clusterissuer.yaml   # Self-signed ClusterIssuer
+│   └── scripts/
+│       ├── install.sh           # Installs all Phase 2 components in order
+│       └── verify.sh            # Smoke tests all Phase 2 components
+└── phase3-gitops/
     ├── helm-values/
-    │   ├── metallb-values.yaml
-    │   ├── ingress-nginx-values.yaml
-    │   └── cert-manager-values.yaml
+    │   └── argocd-values.yaml
     ├── manifests/
-    │   ├── metallb-ippool.yaml  # IPAddressPool + L2Advertisement
-    │   └── clusterissuer.yaml   # Self-signed ClusterIssuer
+    │   └── argocd-ingress.yaml  # Ingress for argocd.stacklayer.local
     └── scripts/
-        ├── install.sh           # Installs all Phase 2 components in order
-        └── verify.sh            # Smoke tests all Phase 2 components
+        ├── install.sh           # Installs ArgoCD
+        └── verify.sh            # Smoke tests ArgoCD
 ```
 
 ## Networking
