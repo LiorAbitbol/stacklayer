@@ -8,9 +8,9 @@ as it grows.
 
 | Phase | Name                | Status    | Doc                                          |
 |-------|---------------------|-----------|----------------------------------------------|
-| 1     | Infrastructure      | Complete  | [phase1-architecture.md](phase1-architecture.md) |
-| 2     | Platform Primitives | Complete  | [phase2-architecture.md](phase2-architecture.md) |
-| 3     | GitOps              | Planned   | —                                            |
+| 1     | Infrastructure      | Complete  | [phase1-infrastructure-architecture.md](phase1-infrastructure-architecture.md) |
+| 2     | Platform Primitives | Complete  | [phase2-platform-architecture.md](phase2-platform-architecture.md) |
+| 3     | GitOps              | Complete  | [phase3-gitops-architecture.md](phase3-gitops-architecture.md) |
 | 4     | Observability       | Planned   | —                                            |
 | 5     | Developer Platform  | Planned   | —                                            |
 
