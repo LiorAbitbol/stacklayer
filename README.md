@@ -10,6 +10,7 @@ at will. Shareable with others who have similar setups.
 
 - [docs/prerequisites.md](docs/prerequisites.md) — what to install on the host
 - [docs/architecture.md](docs/architecture.md) — full architecture overview and phase map
+- [docs/tutorials/](docs/tutorials/) — how-to guides for deploying apps to the cluster
 
 ## Quick Start
 
@@ -28,9 +29,8 @@ See [docs/prerequisites.md](docs/prerequisites.md) for the full list. TL;DR:
 ### Spin up the cluster
 
 ```powershell
-make up
-make kubeconfig
-make verify
+make infra
+make verify-infra
 ```
 
 ### Install platform primitives
@@ -79,9 +79,8 @@ make destroy
 To rebuild from scratch:
 
 ```powershell
-make up
-make kubeconfig
-make verify
+make infra
+make verify-infra
 ```
 
 ## Repository Structure

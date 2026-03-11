@@ -1,32 +1,32 @@
 SHELL := C:/Program Files/Git/usr/bin/bash.exe
-.PHONY: up kubeconfig verify destroy platform verify-platform gitops verify-gitops help
+.PHONY: infra kubeconfig verify-infra destroy platform verify-platform gitops verify-gitops help
 
 help:
 	@echo ""
 	@echo "StackLayer"
 	@echo ""
-	@echo "  Phase 1 — Infrastructure"
-	@echo "  make up          Provision VMs and bootstrap Kubernetes cluster"
-	@echo "  make kubeconfig  Copy kubeconfig from master to ~/.kube/config"
-	@echo "  make verify      Smoke test cluster health"
-	@echo "  make destroy     Destroy all VMs (irreversible)"
+	@echo "  Phase 1 - Infrastructure"
+	@echo "  make infra          Provision VMs, bootstrap Kubernetes, copy kubeconfig"
+	@echo "  make verify-infra   Smoke test cluster health"
+	@echo "  make destroy        Destroy all VMs (irreversible)"
 	@echo ""
-	@echo "  Phase 2 — Platform"
+	@echo "  Phase 2 - Platform"
 	@echo "  make platform         Install ingress-nginx, cert-manager, MetalLB, local-path-provisioner"
 	@echo "  make verify-platform  Smoke test platform health"
 	@echo ""
-	@echo "  Phase 3 — GitOps"
+	@echo "  Phase 3 - GitOps"
 	@echo "  make gitops           Install ArgoCD"
 	@echo "  make verify-gitops    Smoke test ArgoCD health"
 	@echo ""
 
-up:
+infra:
 	cd phase1-infrastructure && vagrant up
+	$(SHELL) phase1-infrastructure/scripts/kubeconfig.sh
 
 kubeconfig:
 	$(SHELL) phase1-infrastructure/scripts/kubeconfig.sh
 
-verify:
+verify-infra:
 	$(SHELL) phase1-infrastructure/scripts/verify.sh
 
 destroy:
