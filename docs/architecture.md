@@ -51,6 +51,14 @@ as it grows.
 | Pod network     | 10.244.0.0/16     | Flannel inter-pod routing      |
 | Service network | 10.96.0.0/12      | Kubernetes ClusterIP range     |
 
+## Tutorials
+
+Step-by-step guides for deploying applications to the cluster:
+
+- [tutorials/README.md](tutorials/README.md) — index
+- [tutorials/01-fastapi-sample-app.md](tutorials/01-fastapi-sample-app.md) — FastAPI app with Kubernetes manifests
+- [tutorials/02-argocd-deploy.md](tutorials/02-argocd-deploy.md) — Deploy with ArgoCD
+
 ## Design Principles
 
 - **Reproducible** — `vagrant destroy && vagrant up` returns to a clean cluster
