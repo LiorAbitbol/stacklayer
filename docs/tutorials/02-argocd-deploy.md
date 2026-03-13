@@ -10,17 +10,9 @@ with the GitHub repo automatically.
 
 ## Step 1 — Log in to ArgoCD
 
-Get the initial admin password:
-
-```powershell
-kubectl -n argocd get secret argocd-initial-admin-secret `
-  -o jsonpath='{.data.password}' | `
-  [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_))
-```
-
 Open **https://argocd.stacklayer.local** in your browser and log in:
 - **Username:** `admin`
-- **Password:** output from the command above
+- **Password:** `stacklayer`
 
 > Your browser will show a certificate warning because the TLS certificate is self-signed.
 > Proceed past it.
@@ -184,7 +176,7 @@ Accept the self-signed certificate warning. You should see:
 Check the health endpoint:
 
 ```powershell
-curl https://hello.stacklayer.local/health -k
+curl.exe https://hello.stacklayer.local/health -k
 # {"status":"ok"}
 ```
 

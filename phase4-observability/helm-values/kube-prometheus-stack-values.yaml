@@ -11,6 +11,9 @@ grafana:
 
 prometheus:
   prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
     retention: 7d
 
     storageSpec:
