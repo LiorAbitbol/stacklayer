@@ -32,6 +32,7 @@ echo ""
 # ArgoCD
 # -------------------------------------------------------------------
 echo "--- Installing ArgoCD ---"
+# To find the latest chart version: helm search repo argo/argo-cd
 helm upgrade --install argocd argo/argo-cd \
   --namespace argocd \
   --create-namespace \
@@ -50,14 +51,11 @@ echo ""
 # -------------------------------------------------------------------
 # Summary
 # -------------------------------------------------------------------
-ADMIN_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret \
-  -o jsonpath='{.data.password}' 2>/dev/null | base64 --decode || echo "(secret not found)")
-
 echo "--- ArgoCD Access ---"
 echo ""
 echo "  URL:      https://argocd.stacklayer.local"
 echo "  Username: admin"
-echo "  Password: ${ADMIN_PASSWORD}"
+echo "  Password: stacklayer"
 echo ""
 echo "Add to your Windows hosts file (C:\\Windows\\System32\\drivers\\etc\\hosts):"
 echo "  192.168.56.200  argocd.stacklayer.local"

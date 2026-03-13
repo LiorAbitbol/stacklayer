@@ -10,13 +10,13 @@ Phase 4 is optional and independent of Phase 3. It requires only Phase 1 and Pha
 
 ## Components
 
-| Component          | Purpose                                               |
-|--------------------|-------------------------------------------------------|
-| Prometheus         | Metrics collection and storage                        |
-| Grafana            | Dashboard UI                                          |
-| Alertmanager       | Alert routing (ephemeral — no persistence in lab)     |
-| node-exporter      | Per-node CPU, memory, disk, network metrics           |
-| kube-state-metrics | Kubernetes object state metrics (pods, deployments)   |
+| Component          | Chart / Version                  | Purpose                                             |
+|--------------------|----------------------------------|-----------------------------------------------------|
+| Prometheus         | kube-prometheus-stack 70.4.2     | Metrics collection and storage                      |
+| Grafana            | (bundled in chart)               | Dashboard UI                                        |
+| Alertmanager       | (bundled in chart)               | Alert routing (ephemeral — no persistence in lab)   |
+| node-exporter      | (bundled in chart)               | Per-node CPU, memory, disk, network metrics         |
+| kube-state-metrics | (bundled in chart)               | Kubernetes object state metrics (pods, deployments) |
 
 ## Access
 

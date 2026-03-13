@@ -80,19 +80,6 @@ else
 fi
 echo ""
 
-# -------------------------------------------------------------------
-# Initial admin secret
-# -------------------------------------------------------------------
-echo "--- Admin credentials ---"
-
-secret_exists=$(kubectl get secret argocd-initial-admin-secret -n argocd \
-  --no-headers 2>/dev/null | wc -l)
-if [ "${secret_exists}" -ge 1 ]; then
-  ok "argocd-initial-admin-secret exists"
-else
-  fail "argocd-initial-admin-secret not found"
-fi
-echo ""
 
 # -------------------------------------------------------------------
 # Summary
@@ -107,12 +94,10 @@ if [ "$FAIL" -gt 0 ]; then
   echo ""
   exit 1
 else
-  ADMIN_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret \
-    -o jsonpath='{.data.password}' 2>/dev/null | base64 --decode || echo "(not found)")
   echo "=== PASS — ArgoCD is healthy ==="
   echo ""
   echo "  URL:      https://argocd.stacklayer.local"
   echo "  Username: admin"
-  echo "  Password: ${ADMIN_PASSWORD}"
+  echo "  Password: stacklayer"
   echo ""
 fi

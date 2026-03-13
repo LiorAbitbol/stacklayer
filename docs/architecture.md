@@ -59,6 +59,32 @@ Step-by-step guides for deploying applications to the cluster:
 - [tutorials/01-fastapi-sample-app.md](tutorials/01-fastapi-sample-app.md) — FastAPI app with Kubernetes manifests
 - [tutorials/02-argocd-deploy.md](tutorials/02-argocd-deploy.md) — Deploy with ArgoCD
 
+## Component Versions
+
+All Helm chart versions and manifest URLs are pinned in each phase's `install.sh` for reproducibility.
+To find a newer version before upgrading, each install script includes a comment with the lookup command.
+
+| Phase | Component               | Version        |
+|-------|-------------------------|----------------|
+| 2     | MetalLB                 | 0.14.9         |
+| 2     | ingress-nginx           | 4.12.1         |
+| 2     | cert-manager            | 1.17.2         |
+| 2     | local-path-provisioner  | 0.0.31         |
+| 3     | ArgoCD (argo-cd)        | 7.8.23         |
+| 4     | kube-prometheus-stack   | 70.4.2         |
+
+To upgrade a component: update the `--version` flag in the relevant `install.sh`, then re-run the
+corresponding `make` target (`helm upgrade --install` is idempotent).
+
+## Tool Credentials
+
+All StackLayer tools use the same credentials for simplicity:
+
+| Tool       | URL                              | Username | Password    |
+|------------|----------------------------------|----------|-------------|
+| ArgoCD     | https://argocd.stacklayer.local  | admin    | stacklayer  |
+| Grafana    | https://grafana.stacklayer.local | admin    | stacklayer  |
+
 ## Design Principles
 
 - **Reproducible** — `vagrant destroy && vagrant up` returns to a clean cluster
