@@ -1,9 +1,13 @@
 SHELL := C:/Program Files/Git/usr/bin/bash.exe
-.PHONY: infra kubeconfig verify-infra destroy platform verify-platform gitops verify-gitops help
+.PHONY: infra kubeconfig verify-infra destroy platform verify-platform gitops verify-gitops observability verify-observability start stop help
 
 help:
 	@echo ""
 	@echo "StackLayer"
+	@echo ""
+	@echo "  Cluster lifecycle"
+	@echo "  make start          Power on VMs (workloads resume automatically)"
+	@echo "  make stop           Graceful shutdown of all VMs"
 	@echo ""
 	@echo "  Phase 1 - Infrastructure"
 	@echo "  make infra          Provision VMs, bootstrap Kubernetes, copy kubeconfig"
@@ -15,9 +19,19 @@ help:
 	@echo "  make verify-platform  Smoke test platform health"
 	@echo ""
 	@echo "  Phase 3 - GitOps"
-	@echo "  make gitops           Install ArgoCD"
-	@echo "  make verify-gitops    Smoke test ArgoCD health"
+	@echo "  make gitops                Install ArgoCD"
+	@echo "  make verify-gitops         Smoke test ArgoCD health"
 	@echo ""
+	@echo "  Phase 4 - Observability"
+	@echo "  make observability         Install Prometheus, Grafana, Alertmanager"
+	@echo "  make verify-observability  Smoke test observability health"
+	@echo ""
+
+start:
+	cd phase1-infrastructure && vagrant up
+
+stop:
+	cd phase1-infrastructure && vagrant halt
 
 infra:
 	cd phase1-infrastructure && vagrant up
@@ -45,3 +59,9 @@ gitops:
 
 verify-gitops:
 	$(SHELL) phase3-gitops/scripts/verify.sh
+
+observability:
+	$(SHELL) phase4-observability/scripts/install.sh
+
+verify-observability:
+	$(SHELL) phase4-observability/scripts/verify.sh

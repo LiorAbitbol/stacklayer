@@ -9,6 +9,12 @@ configs:
     # Run ArgoCD server in insecure (HTTP) mode — TLS is terminated at ingress-nginx
     server.insecure: true
 
+  secret:
+    # bcrypt hash of "stacklayer" — consistent with all other StackLayer tool passwords
+    # To regenerate: htpasswd -bnBC 10 "" <password> | tr -d ':\n'
+    argocdServerAdminPassword: "$2b$10$lXqnsLVmilq.iK9WCoetWejMkERGoynuWYpaauQae9OEPiwpDXyE6"
+    argocdServerAdminPasswordMtime: "2026-01-01T00:00:00Z"
+
 server:
   ingress:
     enabled: false  # Managed separately in manifests/argocd-ingress.yaml

@@ -23,7 +23,7 @@ EOF
 echo "==> [common] Disabling swap"
 swapoff -a
 # Persist across reboots
-sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+sed -i '/swap/s/^/#/' /etc/fstab
 
 # -------------------------------------------------------------------
 # 3. Kernel modules required by containerd and Kubernetes networking

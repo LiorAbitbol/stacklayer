@@ -1,0 +1,27 @@
+grafana:
+  adminPassword: stacklayer
+
+  ingress:
+    enabled: false  # Managed separately in manifests/grafana-ingress.yaml
+
+  persistence:
+    enabled: true
+    storageClassName: local-path
+    size: 2Gi
+
+prometheus:
+  prometheusSpec:
+    retention: 7d
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          accessModes: [ReadWriteOnce]
+          resources:
+            requests:
+              storage: 10Gi
+
+alertmanager:
+  alertmanagerSpec:
+    storage: {}  # Ephemeral — no persistence needed in a lab

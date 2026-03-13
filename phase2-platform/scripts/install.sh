@@ -29,6 +29,7 @@ echo ""
 # MetalLB
 # -------------------------------------------------------------------
 echo "--- Installing MetalLB ---"
+# To find the latest chart version: helm search repo metallb/metallb
 helm upgrade --install metallb metallb/metallb \
   --namespace metallb-system \
   --create-namespace \
@@ -48,6 +49,7 @@ echo ""
 # ingress-nginx
 # -------------------------------------------------------------------
 echo "--- Installing ingress-nginx ---"
+# To find the latest chart version: helm search repo ingress-nginx/ingress-nginx
 helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
   --namespace ingress-nginx \
   --create-namespace \
@@ -62,6 +64,7 @@ echo ""
 # cert-manager
 # -------------------------------------------------------------------
 echo "--- Installing cert-manager ---"
+# To find the latest chart version: helm search repo jetstack/cert-manager
 helm upgrade --install cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --create-namespace \
@@ -81,6 +84,7 @@ echo ""
 # local-path-provisioner
 # -------------------------------------------------------------------
 echo "--- Installing local-path-provisioner ---"
+# To find the latest release: https://github.com/rancher/local-path-provisioner/releases
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.31/deploy/local-path-storage.yaml
 
 echo "Waiting for local-path-provisioner to be ready..."

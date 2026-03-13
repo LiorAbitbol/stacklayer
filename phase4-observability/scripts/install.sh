@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# install.sh — Install Phase 3 GitOps (ArgoCD)
-# Run from the repo root: make gitops
+# install.sh — Install Phase 4 Observability (kube-prometheus-stack)
+# Run from the repo root: make observability
 # Requires: make platform to have been run first
 
 set -euo pipefail
@@ -8,11 +8,11 @@ export PATH="/usr/bin:/bin:$PATH"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../../" && pwd)"
-HELM_VALUES="${REPO_ROOT}/phase3-gitops/helm-values"
-MANIFESTS="${REPO_ROOT}/phase3-gitops/manifests"
+HELM_VALUES="${REPO_ROOT}/phase4-observability/helm-values"
+MANIFESTS="${REPO_ROOT}/phase4-observability/manifests"
 
 echo ""
-echo "=== StackLayer — Phase 3 GitOps Install ==="
+echo "=== StackLayer — Phase 4 Observability Install ==="
 echo ""
 
 # -------------------------------------------------------------------
@@ -24,41 +24,39 @@ source "${REPO_ROOT}/scripts/check-prerequisites.sh"
 # Helm repo
 # -------------------------------------------------------------------
 echo "--- Adding Helm repo ---"
-helm repo add argo https://argoproj.github.io/argo-helm --force-update
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update
 helm repo update
 echo ""
 
 # -------------------------------------------------------------------
-# ArgoCD
+# kube-prometheus-stack
 # -------------------------------------------------------------------
-echo "--- Installing ArgoCD ---"
-# To find the latest chart version: helm search repo argo/argo-cd
-helm upgrade --install argocd argo/argo-cd \
-  --namespace argocd \
+echo "--- Installing kube-prometheus-stack ---"
+# To find the latest chart version: helm search repo prometheus-community/kube-prometheus-stack
+helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
   --create-namespace \
-  --version 7.8.23 \
-  --values "${HELM_VALUES}/argocd-values.yaml" \
-  --wait
+  --version 70.4.2 \
+  --values "${HELM_VALUES}/kube-prometheus-stack-values.yaml" \
+  --wait \
+  --timeout 10m
 
-echo "Waiting for ArgoCD server to be ready..."
-kubectl rollout status deployment/argocd-server -n argocd --timeout=180s
-
-echo "Applying ArgoCD ingress..."
-kubectl apply -f "${MANIFESTS}/argocd-ingress.yaml"
-echo "ArgoCD ready."
+echo "Applying Grafana ingress..."
+kubectl apply -f "${MANIFESTS}/grafana-ingress.yaml"
+echo "kube-prometheus-stack ready."
 echo ""
 
 # -------------------------------------------------------------------
 # Summary
 # -------------------------------------------------------------------
-echo "--- ArgoCD Access ---"
+echo "--- Grafana Access ---"
 echo ""
-echo "  URL:      https://argocd.stacklayer.local"
+echo "  URL:      https://grafana.stacklayer.local"
 echo "  Username: admin"
 echo "  Password: stacklayer"
 echo ""
 echo "Add to your Windows hosts file (C:\\Windows\\System32\\drivers\\etc\\hosts):"
-echo "  192.168.56.200  argocd.stacklayer.local"
+echo "  192.168.56.200  grafana.stacklayer.local"
 echo ""
-echo "=== Phase 3 Install COMPLETE ==="
+echo "=== Phase 4 Install COMPLETE ==="
 echo ""
