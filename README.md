@@ -65,10 +65,19 @@ See [docs/argocd-connect-repo.md](docs/argocd-connect-repo.md) to connect your f
 ### Power the cluster on and off
 
 ```powershell
-cd phase1-infrastructure
-vagrant halt    # graceful shutdown
-vagrant up      # power back on
+make stop   # graceful shutdown
+make start  # power back on (workloads resume automatically)
 ```
+
+After `make start`, wait ~60s for the API server, then verify:
+
+```powershell
+make verify-infra
+make verify-platform
+make verify-gitops
+```
+
+> **Do not run `make infra` to resume** — that re-provisions the VMs from scratch.
 
 ### Tear down
 

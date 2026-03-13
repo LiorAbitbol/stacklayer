@@ -1,9 +1,13 @@
 SHELL := C:/Program Files/Git/usr/bin/bash.exe
-.PHONY: infra kubeconfig verify-infra destroy platform verify-platform gitops verify-gitops help
+.PHONY: infra kubeconfig verify-infra destroy platform verify-platform gitops verify-gitops start stop help
 
 help:
 	@echo ""
 	@echo "StackLayer"
+	@echo ""
+	@echo "  Cluster lifecycle"
+	@echo "  make start          Power on VMs (workloads resume automatically)"
+	@echo "  make stop           Graceful shutdown of all VMs"
 	@echo ""
 	@echo "  Phase 1 - Infrastructure"
 	@echo "  make infra          Provision VMs, bootstrap Kubernetes, copy kubeconfig"
@@ -18,6 +22,12 @@ help:
 	@echo "  make gitops           Install ArgoCD"
 	@echo "  make verify-gitops    Smoke test ArgoCD health"
 	@echo ""
+
+start:
+	cd phase1-infrastructure && vagrant up
+
+stop:
+	cd phase1-infrastructure && vagrant halt
 
 infra:
 	cd phase1-infrastructure && vagrant up
