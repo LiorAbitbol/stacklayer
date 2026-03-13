@@ -1,5 +1,5 @@
 SHELL := C:/Program Files/Git/usr/bin/bash.exe
-.PHONY: infra kubeconfig verify-infra destroy platform verify-platform gitops verify-gitops start stop help
+.PHONY: infra kubeconfig verify-infra destroy platform verify-platform gitops verify-gitops observability verify-observability start stop help
 
 help:
 	@echo ""
@@ -19,8 +19,12 @@ help:
 	@echo "  make verify-platform  Smoke test platform health"
 	@echo ""
 	@echo "  Phase 3 - GitOps"
-	@echo "  make gitops           Install ArgoCD"
-	@echo "  make verify-gitops    Smoke test ArgoCD health"
+	@echo "  make gitops                Install ArgoCD"
+	@echo "  make verify-gitops         Smoke test ArgoCD health"
+	@echo ""
+	@echo "  Phase 4 - Observability"
+	@echo "  make observability         Install Prometheus, Grafana, Alertmanager"
+	@echo "  make verify-observability  Smoke test observability health"
 	@echo ""
 
 start:
@@ -55,3 +59,9 @@ gitops:
 
 verify-gitops:
 	$(SHELL) phase3-gitops/scripts/verify.sh
+
+observability:
+	$(SHELL) phase4-observability/scripts/install.sh
+
+verify-observability:
+	$(SHELL) phase4-observability/scripts/verify.sh

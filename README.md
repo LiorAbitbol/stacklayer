@@ -62,6 +62,21 @@ Add to your Windows hosts file:
 ArgoCD UI is at https://argocd.stacklayer.local — credentials are printed by `make gitops`.
 See [docs/argocd-connect-repo.md](docs/argocd-connect-repo.md) to connect your first repo.
 
+### Install Observability (Phase 4)
+
+```powershell
+make observability
+make verify-observability
+```
+
+Add to your Windows hosts file:
+
+```
+192.168.56.200  grafana.stacklayer.local
+```
+
+Grafana is at https://grafana.stacklayer.local — credentials: `admin` / `stacklayer`.
+
 ### Power the cluster on and off
 
 ```powershell

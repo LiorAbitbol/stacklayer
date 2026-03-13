@@ -11,7 +11,7 @@ as it grows.
 | 1     | Infrastructure      | Complete  | [phase1-infrastructure-architecture.md](phase1-infrastructure-architecture.md) |
 | 2     | Platform Primitives | Complete  | [phase2-platform-architecture.md](phase2-platform-architecture.md) |
 | 3     | GitOps              | Complete  | [phase3-gitops-architecture.md](phase3-gitops-architecture.md) |
-| 4     | Observability       | Planned   | —                                            |
+| 4     | Observability       | In progress | [phase4-observability-architecture.md](phase4-observability-architecture.md) |
 | 5     | Developer Platform  | Planned   | —                                            |
 
 ## System Overview
