@@ -57,6 +57,7 @@ Step-by-step guides for deploying applications to the cluster:
 - [tutorials/README.md](tutorials/README.md) — index
 - [tutorials/01-fastapi-sample-app.md](tutorials/01-fastapi-sample-app.md) — FastAPI app with Kubernetes manifests
 - [tutorials/02-argocd-deploy.md](tutorials/02-argocd-deploy.md) — Deploy with ArgoCD
+- [tutorials/03-app-observability.md](tutorials/03-app-observability.md) — Wire an app into Prometheus and Grafana
 
 ## Component Versions
 
