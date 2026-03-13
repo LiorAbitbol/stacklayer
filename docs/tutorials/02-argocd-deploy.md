@@ -176,7 +176,7 @@ Accept the self-signed certificate warning. You should see:
 Check the health endpoint:
 
 ```powershell
-curl https://hello.stacklayer.local/health -k
+curl.exe https://hello.stacklayer.local/health -k
 # {"status":"ok"}
 ```
 

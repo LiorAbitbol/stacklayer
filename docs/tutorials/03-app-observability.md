@@ -66,10 +66,10 @@ curl http://localhost:8000/metrics
 
 ---
 
-## Step 2 — Name the Service port
+## Step 2 — Update the Service
 
-`ServiceMonitor` references ports by **name**, not by number. Update `k8s/service.yaml`
-to add a name to the existing port:
+`ServiceMonitor` references ports by **name**, not by number, and its `selector` matches
+labels on the **Service object itself**. Update `k8s/service.yaml` to add both:
 
 **`k8s/service.yaml`**
 
@@ -79,6 +79,8 @@ kind: Service
 metadata:
   name: hello-stacklayer
   namespace: hello-stacklayer
+  labels:
+    app: hello-stacklayer
 spec:
   selector:
     app: hello-stacklayer
@@ -167,8 +169,8 @@ Prometheus needs something to scrape. Send a few requests to the app:
 
 ```powershell
 for ($i = 0; $i -lt 20; $i++) {
-  curl https://hello.stacklayer.local/ -k -s | Out-Null
-  curl https://hello.stacklayer.local/health -k -s | Out-Null
+  curl.exe https://hello.stacklayer.local/ -k -s | Out-Null
+  curl.exe https://hello.stacklayer.local/health -k -s | Out-Null
 }
 ```
 
@@ -186,7 +188,7 @@ Open **http://localhost:9090** in your browser.
 
 **Check the scrape target is registered:**
 
-1. Go to **Status → Targets**
+1. Go to **Status → Target health**
 2. Search for `hello-stacklayer` — you should see it with state **UP**
 
 **Run a query:**

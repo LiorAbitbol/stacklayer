@@ -150,6 +150,7 @@ spec:
       containers:
         - name: hello-stacklayer
           image: ghcr.io/<your-github-username>/hello-stacklayer:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           readinessProbe:
